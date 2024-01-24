@@ -1,0 +1,12 @@
+body {
+    background-image: url('./img/baby-bicycle-background_1016-5519.jpg'); /* Укажите путь к вашему изображению */
+    background-repeat: repeat; /* Это заставит изображение повторяться */
+}
+
+#map {
+    height: 150vh;
+    border-radius: 25px;
+}
+img {
+    width: 20vh;
+}

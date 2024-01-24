@@ -1,65 +1,66 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stations Vélib et Météo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stations Vélib et Météo</title>
+  <link rel="stylesheet" href="./public/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+  crossorigin=""/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+</head>
 <body>
-    <div class="container mt-4">
-        <h1 class="mb-4">Stations Vélib et Météo</h1>
-        
-        <!-- Section Vélib -->
-        <h2>Stations Vélib disponibles</h2>
-                <!-- Carte Leaflet -->
-                <div id="map" style="height: 180px"></div>
-
-
-            <!-- Les stations Vélib seront ajoutées ici dynamiquement -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Stations</th>
-                        <th>Capacité </th>
-                        <th>Vélos disponibles</th>
-                        <th>Docks disponibles</th>
-                    </tr>
-                </thead>
-                <tbody id="velib-stations">
-                </tbody>
-            </table>
-
-        <!-- Section Météo -->
-        <h2>Météo actuelle</h2>
-        <div class="input-group mb-3">
-            <input type="text" id="city-input" class="form-control" placeholder="Entrez une ville">
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="get-weather">Obtenir la météo</button>
-            </div>
+  <div class="container d-flex flex-wrap mt-4">
+    <div class="container my-5 rounded-3 shadow-lg" style="background-color: gold;">
+      <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center">
+        <div class="col-lg-6 p-3 p-lg-5 pt-lg-3">
+          <h1 class="display-5 fw-bold lh-1">Trouvez une station Vélib et consultez la météo</h1>
+          <p class="lead">Accédez facilement aux informations en temps réel sur les stations Vélib disponibles et les prévisions météorologiques pour planifier efficacement vos déplacements en ville.</p>
         </div>
-        <div id="weather-info">
-            <!-- Les informations météorologiques seront ajoutées ici dynamiquement -->
-        </div>
+      </div>
     </div>
+    <div class="d-flex flex-row align-items-baseline justify-content-between" style="margin-top: -55vh; margin-right: -50px;">
+      <div class="align-self-center">
+      <div style="height: 50vh;"></div>
+      <!-- Les stations Vélib seront ajoutées ici dynamiquement -->
+      <table class="table align-middle table-success table-striped align-self-end rounded-3 shadow-lg caption-top my-2">
+        <caption class="h2 text-dark text-center mark bg-light my-2">Stations Vélib</caption>
+        <thead>
+          <tr>
+            <th class="h6">Stations</th>
+            <th class="h6">Capacité </th>
+            <th class="h6">Vélos dispo</th>
+            <th class="h6">Docks dispo</th>
+          </tr>
+        </thead>
+        <tbody id="velib-stations">
+        </tbody>
+      </table>
+      </div>
+      <div class="d-flex flex-column col-lg-6 col-md-12 col-sm-12 mt-5" style="height: 160vh;">
+        <!-- Carte Leaflet -->
+        <div id="map" class="shadow-lg my-3"></div>
+        <h2 class="text-center mark bg-light my-2">Prévisions météo a Paris</h2>
 
+        <div id="weather" class="d-flex flex-wrap justify-content-around gap-2 my-2"></div>
+      </div>
+    </div>
+    <footer class="d-flex flex-wrap justify-content-around py-1 my-4 w-100 bg-light rounded-3 shadow-lg">
+      <div class="col-md-4 d-flex align-items-center">
+        <p class="mb-3 mb-md-0 font-monospace">© 2024 masechkacat</p>
+      </div>
+      <a class="link-dark" href="https://github.com/masechkacat">
+        <i class="bi bi-github fs-3" role="img" aria-label="GitHub"></i>
+      </a>
+    </footer>
+  </div>
     <!-- JavaScript et Leaflet -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
-    <script>
-        // Инициализация карты Leaflet
-        var map = L.map('map').setView([48.8566, 2.3522], 13); // Координаты центра карты (например, Париж) и уровень масштабирования
-    
-        // Загрузка и добавление тайлов карты
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-    </script>
-    
     <script src="./src/main.js" type="module"></script>
 </body>
 </html>

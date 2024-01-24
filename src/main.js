@@ -1,25 +1,53 @@
 import { displayVelibStations } from './stations.js';
+import { displayVelibMarkers } from './map.js';
+import { displayMeteo } from './meteo.js';
+import { API_URL, map } from './const.js';
 
-const API_URL = {
-    veloLib: 'https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/velib-disponibilite-en-temps-reel/records?limit=20',
-    leaflet: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js',
-    meteo: 'https://www.prevision-meteo.ch/services/json/lat=48.85341lng=2.3488'
-}
+// Загрузка и добавление тайлов карты
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom: 19,
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
 function getDataFromApi() {
-    fetch(API_URL.veloLib)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok ' + response.statusText);
-            }
-            return response.json(); // Преобразуем ответ в JSON
-        })
-        .then(data => {
-            console.log(data); // Обрабатываем полученные данные
-            displayVelibStations(data); // Используем данные (например, для отображения информации о станциях Velib)
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+  fetch(API_URL.veloLib)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json(); // Преобразуем ответ в JSON
+    })
+    .then(data => {
+      console.log(data); // Обрабатываем полученные данные
+      displayVelibStations(data); // Используем данные (например, для отображения информации о станциях Velib)
+      displayVelibMarkers(data, map); // Используем данные (например, для отображения маркеров на карте)
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
 }
+
+function getMeteoFromApi() {
+  fetch(API_URL.meteo)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json(); // Преобразуем ответ в JSON
+    })
+    .then(data => {
+      console.log(data); // Обрабатываем полученные данные
+      displayMeteo(data); // Используем данные (например, для отображения информации о станциях Velib)
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+}
+
+// Вызываем функции впервые для инициализации и отображения данных
 getDataFromApi();
+getMeteoFromApi();
+
+// Затем настраиваем интервалы для периодического обновления данных
+setInterval(getDataFromApi, 3600000); // Обновляем данные о Velib каждый час
+setInterval(getMeteoFromApi, 3600000); // Обновляем метеоданные каждый час
